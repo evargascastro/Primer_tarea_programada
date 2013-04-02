@@ -1,0 +1,86 @@
+import java.awt.*
+import java.awt.event.*;
+
+
+class Fac extends Frame
+{
+  Button b1;
+  Label l1;
+  TextField t1;
+    
+  public Fac()
+  {
+    ClassActions Acciones;
+
+    this.addWindowListener(new  Cierre()); 
+    this.setTitle("Ejemplo del uso de Interacciones de objetos");
+    this.setSize(220,400);
+          
+
+    b1 = new Button("Acción");
+    b1.setBounds(470,55,100,30); //setBounds(x,y,ancho,alto)
+    this.add(b1);
+    
+    l1 = new Label("TextoSalida");
+    l1.setBounds(100,55,250,30);
+    this.add(l1);
+    
+    l1 = new TextField("TextoEntrada");
+    l1.setBounds(300,55,250,30);
+    this.add(l1);
+    
+    //listaners para los acciones objetos
+    
+    Acciones = new ClassActions();
+    aceptar.addActionListener(Acciones);
+    //hago visible el Frame
+    this.setVisible(true);
+  }
+  
+  public int ComputeFac(int num) 
+  {
+    int num_aux;
+    if (num < 1)
+      num_aux = 1;
+    else
+      num_aux = num * (this.ComputeFac(num-1));
+    return num_aux;
+  }
+  
+  class ClassActions implements ActionListener 
+  {
+    public void actionPerformed(ActionEvent evento) 
+    {
+      Object objeto; 
+objeto = evento.getSource(); 
+      
+      if (objeto == b1) 
+        { this.b1_ActionPerformed(evento); }
+    }
+  }
+  
+  public void b1_ActionPerformed(ActionEvent evento)
+  { 
+    int res,n;
+    String temp;
+    temp = t1.getText();
+    n = Integer.parseInt(temp); 
+    res = this.ComputeFac(n);
+    temp = String.valueOf(res);
+    l1.setText(temp);
+  }
+}
+
+class Cierre extends WindowAdapter
+{
+     public void windowClosing(WindowEvent e)
+     {
+          System.exit(0);
+     }
+}
+
+class Factorial {
+    public static void main(String[] a) {
+        System.out.println((new Fac()).ComputeFac(10));
+    }
+}
